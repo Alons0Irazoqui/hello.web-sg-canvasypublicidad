@@ -256,6 +256,9 @@ section { scroll-margin-top: 98px; }
   animation: brandFlow 4.2s ease-in-out infinite;
 }
 @keyframes brandFlow { 0%,100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+.hero-em-hidden { opacity: 0; transform: translateX(-8px); display: inline-block; transition: opacity 0.6s var(--ease-out), transform 0.6s var(--ease-out); }
+.hero-em-hidden.shown { opacity: 1; transform: translateX(0); }
+#heroTypeCursor.done { display: none; }
 .hero-subtitle {
   margin-top: 22px;
   font-family: var(--font-head);
@@ -938,7 +941,7 @@ footer { background: #021120; padding: 68px 5% 36px; border-top: 1px solid var(-
 
   <div class="hero-content">
     <p class="hero-eyebrow">Impresión, publicidad y arte decorativo</p>
-    <h1 class="hero-title">SG Canvas &amp; <em>Publicidad</em></h1>
+    <h1 class="hero-title"><span id="heroTypeText"></span><span id="heroTypeCursor" class="typer-cursor" aria-hidden="true"></span><em id="heroTypeEm" class="hero-em-hidden">Publicidad</em></h1>
     <p class="hero-subtitle">
       De la idea al <span id="typer" class="typer-word"></span><span class="typer-cursor" aria-hidden="true"></span>
     </p>
@@ -1243,7 +1246,7 @@ footer { background: #021120; padding: 68px 5% 36px; border-top: 1px solid var(-
       </article>
       <article class="terms-card">
         <h3>Envíos y cobertura</h3>
-        <p>Producción en Querétaro. Entrega local sin costo en Querétaro capital, El Marqués y Corregidora. Envíos a todo México por paquetería.</p>
+        <p>Producción en Querétaro. Entrega con costo en Querétaro capital y envíos con costo a toda la República Mexicana por paquetería. También puedes recoger tu pedido sin costo en el domicilio del negocio, previa cita por WhatsApp.</p>
       </article>
       <article class="terms-card">
         <h3>Garantía</h3>
@@ -1296,10 +1299,10 @@ footer { background: #021120; padding: 68px 5% 36px; border-top: 1px solid var(-
       <article class="faq-item"><h3>¿Cuánto tarda mi pedido?</h3><p>Depende del producto: canvas 3 a 5 días hábiles, papelería 5 a 7, lonas 2 a 3 y textiles 7 a 10.</p></article>
       <article class="faq-item"><h3>¿Hacen una sola pieza?</h3><p>Sí, especialmente en cuadros canvas y algunos promocionales. En papelería o textiles puede haber mínimos según técnica y proveedor.</p></article>
       <article class="faq-item"><h3>¿Emiten factura?</h3><p>Sí, emitimos CFDI 4.0. Solicítala al confirmar el pedido y comparte tus datos fiscales completos.</p></article>
-      <article class="faq-item"><h3>¿A dónde envían?</h3><p>Tenemos producción en Querétaro, entrega local en Querétaro capital, El Marqués y Corregidora, y envíos por paquetería a todo México.</p></article>
+      <article class="faq-item"><h3>¿A dónde envían?</h3><p>Tenemos producción en Querétaro. Hacemos entrega con costo en Querétaro capital y envíos con costo por paquetería a toda la República Mexicana.</p></article>
       <article class="faq-item"><h3>¿Mandan prueba antes de imprimir?</h3><p>Sí, cuando el proyecto lo requiere enviamos prueba digital para validar medidas, arte y textos antes de producción.</p></article>
       <article class="faq-item"><h3>¿Qué pasa si llega dañado?</h3><p>Repórtalo dentro de los 5 días siguientes a la entrega, con foto. Si aplica por daño, defecto o diferencia contra arte aprobado, se reimprime sin costo.</p></article>
-      <article class="faq-item"><h3>¿Puedo recoger en persona?</h3><p>La entrega local se coordina por WhatsApp. No publicamos domicilio abierto al público porque trabajamos como negocio de área de servicio.</p></article>
+      <article class="faq-item"><h3>¿Puedo recoger en persona?</h3><p>Sí, puedes recoger tu pedido sin costo en el domicilio del negocio. Coordinamos día y hora por WhatsApp antes de tu visita.</p></article>
     </div>
   </div>
 </section>
@@ -1378,7 +1381,7 @@ footer { background: #021120; padding: 68px 5% 36px; border-top: 1px solid var(-
         <p class="section-tag no-lines">Datos del negocio</p>
         <h3 class="contacto-title">Hablemos de tu <em>marca</em></h3>
         <div class="business-facts">
-          <div class="business-fact"><strong>Producción en Querétaro</strong><span>Entrega local sin costo en Querétaro capital, El Marqués y Corregidora. Envíos a todo México por paquetería.</span></div>
+          <div class="business-fact"><strong>Entrega y recolección</strong><span>Entrega con costo en Querétaro capital, envíos con costo a toda la República Mexicana, o recoge sin costo en el domicilio del negocio (previa cita por WhatsApp).</span></div>
           <div class="business-fact"><strong>Horario de atención</strong><span>Lunes a viernes de 9:00 a 18:00 h. Sábados de 9:00 a 14:00 h. Fuera de horario respondemos al siguiente día hábil.</span></div>
           <div class="business-fact"><strong>Factura disponible</strong><span>Emitimos CFDI 4.0. Solicítala al confirmar tu pedido.</span></div>
           <div class="business-fact"><strong>Correo</strong><span><a href="mailto:contacto@sgcanvas.mx">contacto@sgcanvas.mx</a></span></div>
@@ -1494,6 +1497,26 @@ footer { background: #021120; padding: 68px 5% 36px; border-top: 1px solid var(-
       if (el) el.classList.add('hidden');
     }, 2450);
   });
+
+  (function () {
+    var text = 'SG Canvas & ';
+    var target = document.getElementById('heroTypeText');
+    var cursor = document.getElementById('heroTypeCursor');
+    var em = document.getElementById('heroTypeEm');
+    if (!target || !cursor || !em) return;
+    var i = 0;
+
+    function typeTick() {
+      target.textContent = text.slice(0, ++i);
+      if (i < text.length) {
+        setTimeout(typeTick, 62);
+      } else {
+        cursor.classList.add('done');
+        em.classList.add('shown');
+      }
+    }
+    setTimeout(typeTick, 2500);
+  }());
 
   var nav = document.getElementById('nav');
   window.addEventListener('scroll', function () {
