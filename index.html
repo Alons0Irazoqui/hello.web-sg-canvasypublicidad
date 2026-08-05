@@ -536,15 +536,16 @@ section { scroll-margin-top: 98px; }
 .exp-tagline { font-family: var(--font-head); font-size: 3rem; font-weight: 900; color: #061B2E; line-height: 1.08; text-transform: uppercase; }
 .exp-stats { display: grid; grid-template-columns: repeat(4, minmax(128px,1fr)); gap: 14px; flex: 1.35; }
 .exp-stat {
-  padding: 24px 18px;
+  container-type: inline-size;
+  padding: 24px 14px;
   text-align: center;
   background: rgba(255,255,255,0.24);
   border: 1px solid rgba(255,255,255,0.28);
   border-radius: 8px;
   backdrop-filter: blur(12px);
 }
-.exp-stat strong { display: block; font-family: var(--font-head); font-size: 2rem; font-weight: 900; color: #061B2E; line-height: 1; margin-bottom: 8px; }
-.exp-stat span { font-size: 0.78rem; text-transform: uppercase; color: rgba(4,10,16,0.72); font-weight: 900; }
+.exp-stat strong { display: block; font-family: var(--font-head); font-size: clamp(1rem, 16cqw, 2rem); font-weight: 900; color: #061B2E; line-height: 1; margin-bottom: 8px; white-space: nowrap; }
+.exp-stat span { font-size: clamp(0.5rem, 7.5cqw, 0.78rem); text-transform: uppercase; color: rgba(4,10,16,0.72); font-weight: 900; white-space: nowrap; }
 
 #galeria { padding: 120px 0; background: var(--dark); }
 #galeria .section-title { color: var(--white); }
